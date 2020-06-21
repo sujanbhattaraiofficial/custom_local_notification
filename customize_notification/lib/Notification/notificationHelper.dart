@@ -89,6 +89,7 @@ class NotificationHelper {
                 DateTime.parse(a).millisecondsSinceEpoch &&
             currentTime.millisecondsSinceEpoch <=
                 DateTime.parse(b).millisecondsSinceEpoch) {
+          print("play Notification");
           await flutterLocalNotificationsPlugin.show(0, "Hello there!",
               "Please subscribe my channel", platformChannelSpecifics);
         }
@@ -126,10 +127,10 @@ class NotificationHelper {
         print("date different");
         var setStart =
             DateTime(now.year, now.month, now.day, int.parse(startHour), 00);
-        SharedPrefs().setStartTime(setStart.toString());
+        setStartTime(setStart);
         var setEnd =
             DateTime(now.year, now.month, now.day, int.parse(endHour), 00);
-        SharedPrefs().setStartTime(setEnd.toString());
+        setEndTime(setEnd);
       }
     });
   }

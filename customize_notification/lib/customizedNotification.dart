@@ -1,5 +1,6 @@
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:customize_notification/Notification/notificationHelper.dart';
+import 'package:customize_notification/sharePrefs.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -16,15 +17,7 @@ class _CustomizedNotificationState extends State<CustomizedNotification> {
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((value) {
-      setState(() {
-        var a = value.getString('startTime');
-        print(a);
-        var b = value.getString('endTime');
-        startTime = DateFormat('jm').format(DateTime.parse(a));
-        endTime = DateFormat('jm').format(DateTime.parse(b));
-      });
-    });
+    getTime();
   }
 
   static periodicCallBack() {
@@ -126,8 +119,22 @@ class _CustomizedNotificationState extends State<CustomizedNotification> {
         await AndroidAlarmManager.periodic(
             const Duration(minutes: 1), 0, periodicCallBack,
             wakeup: true);
+        onlyTimeTimePeriodic();
       } else {
-        print("cannot run more than onnce");
+        print("cannot run more than once");
+      }
+    });
+  }
+
+  getTime() {
+    SharedPreferences.getInstance().then((value) {
+      var a = value.getString('startTime');
+      var b = value.getString('endTime');
+      if (a != null && b != null) {
+        setState(() {
+          endTime = DateFormat('jm').format(DateTime.parse(b));
+          startTime = DateFormat('jm').format(DateTime.parse(a));
+        });
       }
     });
   }
