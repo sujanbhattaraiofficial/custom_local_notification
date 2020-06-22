@@ -1,7 +1,6 @@
-import 'package:customize_notification/customizedNotification.dart';
-import 'package:customize_notification/sharePrefs.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:customize_notification/sharedPrefs.dart';
+import 'customizedNotification.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,11 +11,10 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    var startTime = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 00);
+    var now = DateTime.now();
+    var startTime = DateTime(now.year, now.month, now.day, 07, 00); // eg 7 AM
+    var endTime = DateTime(now.year, now.month, now.day, 22, 00); // eg 10 PM
     setStartTime(startTime);
-    var endTime = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 22, 00);
     setEndTime(endTime);
   }
 
@@ -32,13 +30,14 @@ class _HomeState extends State<Home> {
             }));
           },
           child: Container(
-              height: 60,
-              width: 100,
-              child: Icon(
-                Icons.alarm,
-                size: 50,
-                color: Colors.white,
-              )),
+            height: 60,
+            width: 100,
+            child: Icon(
+              Icons.alarm,
+              color: Colors.white,
+              size: 50,
+            ),
+          ),
         ),
       ),
     );

@@ -19,10 +19,11 @@ public class Application extends FlutterApplication implements PluginRegistrantC
     public void registerWith(PluginRegistry registry) {
         AndroidAlarmManagerPlugin.registerWith(
                 registry.registrarFor("io.flutter.plugins.androidalarmmanager.AndroidAlarmManagerPlugin"));
-        SharedPreferencesPlugin
-                .registerWith(registry.registrarFor("io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin"));
 
         FlutterLocalNotificationsPlugin.registerWith(
                 registry.registrarFor("com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin"));
+
+        SharedPreferencesPlugin
+                .registerWith(registry.registrarFor("io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin"));
     }
 }

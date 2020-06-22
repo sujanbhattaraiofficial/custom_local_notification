@@ -1,6 +1,6 @@
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:customize_notification/Notification/notificationHelper.dart';
-import 'package:customize_notification/sharePrefs.dart';
+import 'package:customize_notification/sharedPrefs.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -13,16 +13,14 @@ class CustomizedNotification extends StatefulWidget {
 class _CustomizedNotificationState extends State<CustomizedNotification> {
   String startTime = "";
   String endTime = "";
-
   @override
   void initState() {
     super.initState();
     getTime();
   }
 
-  static periodicCallBack() {
-    NotificationHelper().showNotificationBetweenInterval();
-    print("Notification started");
+  static periodicCallback() {
+    NotificationHelper().showNotificationBtweenInterval();
   }
 
   @override
@@ -40,7 +38,7 @@ class _CustomizedNotificationState extends State<CustomizedNotification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Notification Start from",
+                        "Notification Start From",
                         style: TextStyle(fontSize: 30),
                       ),
                       SizedBox(
@@ -49,7 +47,7 @@ class _CustomizedNotificationState extends State<CustomizedNotification> {
                       Text(
                         startTime,
                         style: TextStyle(fontSize: 30),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -62,7 +60,7 @@ class _CustomizedNotificationState extends State<CustomizedNotification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Notification Stop from",
+                        "Notification Stop From",
                         style: TextStyle(fontSize: 30),
                       ),
                       SizedBox(
@@ -71,7 +69,7 @@ class _CustomizedNotificationState extends State<CustomizedNotification> {
                       Text(
                         endTime,
                         style: TextStyle(fontSize: 30),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -86,17 +84,15 @@ class _CustomizedNotificationState extends State<CustomizedNotification> {
                     children: <Widget>[
                       Container(
                         height: 50,
-                        // width: 100,
                         child: RaisedButton(
-                          elevation: 8.0,
                           color: Colors.blue,
                           onPressed: () async {
                             WidgetsFlutterBinding.ensureInitialized();
                             await AndroidAlarmManager.initialize();
-                            ontTimePeriodic();
+                            onTimePeriodic();
                           },
                           child: Text(
-                            "Okay, Trigger Alarm",
+                            "Okay , Trigger Alarm",
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                         ),
@@ -104,24 +100,34 @@ class _CustomizedNotificationState extends State<CustomizedNotification> {
                     ],
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),
       ),
     );
   }
+  // getD(){
+  //   SharedPreferences.getInstance().then((value) {
+  //     var a = value.getString('dai');
+  //     print(a);
+  //   });
+  // }
 
-  ontTimePeriodic() {
+  //   Future sujan() async {
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   sharedPreferences.setString("dai", "lado");
+  // }
+
+  onTimePeriodic() {
     SharedPreferences.getInstance().then((value) async {
-      var a = value.getBool("oneTimePerodic") ?? false;
+      var a = value.getBool('oneTimePeriodic') ?? false;
       if (!a) {
         await AndroidAlarmManager.periodic(
-            const Duration(minutes: 1), 0, periodicCallBack,
-            wakeup: true);
-        onlyTimeTimePeriodic();
+            Duration(minutes: 1), 0, periodicCallback);
+        onlyOneTimePeriodic();
       } else {
-        print("cannot run more than once");
+        print("Cannot run more than once");
       }
     });
   }
@@ -132,8 +138,8 @@ class _CustomizedNotificationState extends State<CustomizedNotification> {
       var b = value.getString('endTime');
       if (a != null && b != null) {
         setState(() {
-          endTime = DateFormat('jm').format(DateTime.parse(b));
           startTime = DateFormat('jm').format(DateTime.parse(a));
+          endTime = DateFormat('jm').format(DateTime.parse(b));
         });
       }
     });

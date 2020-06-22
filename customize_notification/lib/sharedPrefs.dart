@@ -10,7 +10,7 @@ Future setEndTime(DateTime endTime) async {
   sharedPreferences.setString("endTime", endTime.toString());
 }
 
-Future onlyTimeTimePeriodic() async {
+Future onlyOneTimePeriodic() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  sharedPreferences.setBool("oneTimePerodic", true);
+  sharedPreferences.setBool("oneTimePeriodic", true);
 }
